@@ -6,7 +6,7 @@
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 13:45:01 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/03 15:48:42 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/04 14:56:20 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_struct	init_struct(char **argv)
 	struct_p.time_to_sleep = ft_atoi(argv[4]);
 	struct_p.time_to_die = ft_atoi(argv[2]);
 	// struct_p.full_philos = 0;
-	gettimeofday(&struct_p.start_time, NULL);
+	// gettimeofday(&struct_p.start_time, NULL);
 	pthread_mutex_init(&struct_p.print_mutex, NULL);
 	// struct_p.queue = 0;
 	if (argv[5])

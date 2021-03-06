@@ -6,7 +6,7 @@
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 13:03:36 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/04 00:20:30 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/07 00:32:10 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct		s_struct
 	int				full_philos;
 	pthread_mutex_t	print_mutex;
 	pthread_t		check_death;
+	int				time_inited;
 }					t_struct;
 
 typedef struct		s_philo
@@ -50,6 +51,8 @@ int					init_all_philo(void);
 char				*free_all(void);
 void				philo_eating(int i);
 long				subtract_time(struct timeval *eat_last, char flag);
+int					print_error(char *str, int ret);
+int					ft_isdigit(int c);
 
 t_struct			g_struct;
 t_philo				**g_philo;

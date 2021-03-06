@@ -6,7 +6,7 @@
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 13:15:45 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/04 00:20:15 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/07 00:31:58 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,23 @@ long	subtract_time(struct timeval *eat_last, char flag)
 	gettimeofday(&current, NULL);
 	if (flag == 'd')
 	{
-		timersub(&current, eat_last, &tmp);
-		// tmp.tv_sec = current.tv_sec - g_philo[i]->last_time_eat.tv_sec;
-		// tmp.tv_usec = current.tv_usec - g_philo[i]->last_time_eat.tv_usec;
+		// timersub(&current, eat_last, &tmp);
+		tmp.tv_sec = current.tv_sec - eat_last->tv_sec;
+		tmp.tv_usec = current.tv_usec - eat_last->tv_usec;
 		// printf("\t\t\t\t\t\t\t\t\ttv_sec %ld\n", current.tv_sec);
 		// printf("\t\t\t\t\t\t\t\t\ttv_usec %d\n", current.tv_usec);
 	}
 	else
 	{
-		timersub(&current, eat_last, &tmp);
-		// tmp.tv_sec = current.tv_sec - g_struct.start_time.tv_sec;
-		// tmp.tv_usec = current.tv_usec - g_struct.start_time.tv_usec;
+		// timersub(&current, &g_struct.start_time, &tmp);
+		tmp.tv_sec = current.tv_sec - eat_last->tv_sec;
+		tmp.tv_usec = current.tv_usec - eat_last->tv_usec;
 	}
-	// if (tmp.tv_usec < 0)
-	// {
-    //     tmp.tv_sec--;
-	// 	tmp.tv_usec += 1000000;
-	// }
+	if (tmp.tv_usec < 0)
+	{
+        tmp.tv_sec--;
+		tmp.tv_usec += 1000000;
+	}
 	// if (flag == 'd')
 	// 	printf("\t\t\t\t\t\t\t\t\tbefore %ld\n", tmp.tv_sec * 1000 + tmp.tv_usec / 1000);
 	return (tmp.tv_sec * 1000 + tmp.tv_usec / 1000);
@@ -68,4 +68,17 @@ int		ft_atoi(const char *str)
 			return (negative == 1 ? -1 : 0);
 	}
 	return (result * negative);
+}
+
+int		ft_isdigit(int c)
+{
+	if (c >= 48 && c <= 57)
+		return (1);
+	return (0);
+}
+
+int		print_error(char *str, int ret)
+{
+	printf("%s", str);
+	return (ret);
 }

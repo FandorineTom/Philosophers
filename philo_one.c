@@ -6,7 +6,7 @@
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 12:25:01 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/04 00:27:19 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/07 00:45:46 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	*philo_doing_smth(void *num)
 {
 	int	i;
+	int	j;
 
 	i = *(int *)num;
 	pthread_detach(*g_thread[i]);
@@ -24,12 +25,14 @@ void	*philo_doing_smth(void *num)
 			break;
 		usleep(500);
 	}
-	g_struct.queue = ((i + 2) >= g_struct.p_num) ? 1 : (g_struct.queue + 2);
+	g_struct.queue = ((i + 2) >= g_struct.p_num) ? 0 : (g_struct.queue + 2);
 	while (1)
 	{
 		philo_eating(i);
+		pthread_mutex_lock(&g_struct.print_mutex);
 		printf("%ld__ %i is sleeping\n", subtract_time(&g_struct.start_time, 's'), i + 1);
-		usleep(g_struct.time_to_sleep);
+		pthread_mutex_unlock(&g_struct.print_mutex);
+		usleep(g_struct.time_to_sleep + 500);
 		pthread_mutex_lock(&g_struct.print_mutex);
 		printf("%ld__ %i is thinking\n", subtract_time(&g_struct.start_time, 's'), i + 1);
 		pthread_mutex_unlock(&g_struct.print_mutex);
@@ -52,10 +55,10 @@ void	*check_death(void *ptr)
 			// printf("\t\t\t\t\t\ttmp____after %ld\n", tmp);
 			// printf("\t\t\t\t\t\tdie %ld\n", g_struct.time_to_die);
 			pthread_mutex_lock(&g_philo[i]->eat_mutex);
-			if (subtract_time(&g_philo[i]->last_time_eat, 'd') > g_struct.time_to_die)
+			if ((tmp = subtract_time(&g_philo[i]->last_time_eat, 'd')) > g_struct.time_to_die)
 			{
 				pthread_mutex_lock(&g_struct.print_mutex);
-				printf("%ld__ %i DIED DIED DIED DIED DIED DIED DIED DIED DIED\n", subtract_time(&g_philo[i]->last_time_eat, 'd'), i + 1);
+				printf("%ld__ %i DIED DIED DIED DIED DIED DIED DIED DIED DIED\n", tmp, i + 1);
 				return(NULL);
 
 			}
@@ -70,10 +73,34 @@ void	*check_death(void *ptr)
 	return (NULL);
 }
 
+int		check_input(int argc, char **argv)
+{
+	int		i;
+	int		j;
+	int		res;
+
+	if (argc != 5 && argc != 6)
+		return (print_error("Wrong number of arguments\n", -1));
+	j = 1;
+	res = -1;
+	while (j < argc)
+	{
+		i = 0;
+		while ((res = ft_isdigit(argv[j][i])) == 1)
+			i++;
+		if (res == 0 && argv[j][i] != '\0')
+			return (print_error("The arguments are supposed to be numbers\n", -1));
+		j++;
+	}	
+	return (0);
+}
+
 int		main(int argc, char **argv)
 {
 	int			i;
 
+	if (check_input(argc, argv) == -1)
+		return (1); // что возвращать, если ошибка ? (ошибку на печать я вывожу)
 	g_struct = init_struct(argv);
 	if (init_all_philo() == 1)
 		return (1); //обработать ошибку и еще надо ошибку на печать выводить
@@ -84,7 +111,6 @@ int		main(int argc, char **argv)
 		pthread_create(g_thread[i], NULL, philo_doing_smth, &g_philo[i]->p_i);
 		i++;
 	}
-	i = 0;
 	pthread_join(g_struct.check_death, NULL);
 	free_all();
 	return (0);

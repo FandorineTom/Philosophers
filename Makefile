@@ -6,7 +6,7 @@
 #    By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/28 13:16:56 by snorthmo          #+#    #+#              #
-#    Updated: 2021/03/04 00:29:03 by snorthmo         ###   ########.fr        #
+#    Updated: 2021/03/08 14:25:09 by snorthmo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ $(NAME): $(OBJ)
 	gcc $(OBJ) -o $(NAME)
 
 %.o: %.c $(HEADER)philo_one.h
-	gcc -c $< -o ${<:.c=.o} -I $(HEADER)
+	gcc -c $(FLAGS) $< -o ${<:.c=.o} -I $(HEADER)
 
 clean:
 	/bin/rm -f $(OBJ)

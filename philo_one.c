@@ -6,7 +6,7 @@
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 12:25:01 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/08 14:14:47 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/08 15:30:00 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ void	*philo_doing_smth(void *num)
 	{
 		philo_eating(i);
 		pthread_mutex_lock(&g_struct.print_mutex);
-		printf("%ld %i is sleeping\n", subtract_time(g_struct.start_time, \
-		's'), i + 1);
+		printf("%ld %i is sleeping\n", subtract_time(g_struct.start_time), \
+		i + 1);
 		pthread_mutex_unlock(&g_struct.print_mutex);
 		usleep(g_struct.time_to_sleep);
 		pthread_mutex_lock(&g_struct.print_mutex);
-		printf("%ld %i is thinking\n", subtract_time(g_struct.start_time, \
-		's'), i + 1);
+		printf("%ld %i is thinking\n", subtract_time(g_struct.start_time), \
+		i + 1);
 		pthread_mutex_unlock(&g_struct.print_mutex);
 	}
 	return (NULL);
@@ -44,7 +44,6 @@ void	*philo_doing_smth(void *num)
 void	*check_death(void *ptr)
 {
 	int				i;
-	long			tmp;
 
 	while (1)
 	{
@@ -52,11 +51,12 @@ void	*check_death(void *ptr)
 		while (i < g_struct.p_num)
 		{
 			pthread_mutex_lock(&g_philo[i]->eat_mutex);
-			if ((tmp = subtract_time(g_philo[i]->last_time_eat, 'd')) >\
+			if (subtract_time(g_philo[i]->last_time_eat) > \
 			g_struct.time_to_die)
 			{
 				pthread_mutex_lock(&g_struct.print_mutex);
-				printf("%ld %i died\n", tmp, i + 1);
+				printf("%ld %i died\n", subtract_time(g_struct.start_time), \
+				i + 1);
 				return (NULL);
 			}
 			pthread_mutex_unlock(&g_philo[i]->eat_mutex);
@@ -65,7 +65,7 @@ void	*check_death(void *ptr)
 		if (g_struct.full_philos == g_struct.p_num)
 			return (NULL);
 	}
-	return (NULL);
+	return (ptr);
 }
 
 int		check_input(int argc, char **argv)
@@ -95,7 +95,7 @@ int		main(int argc, char **argv)
 	int			i;
 
 	if (check_input(argc, argv) == -1)
-		return (1); // что возвращать, если ошибка ? (ошибку на печать я вывожу)
+		return (1);
 	g_struct = init_struct(argv);
 	if (init_all_philo() == -1)
 		return (1);

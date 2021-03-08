@@ -6,28 +6,20 @@
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 13:15:45 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/08 13:50:07 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/08 15:21:56 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
 
-long	subtract_time(struct timeval eat_last, char flag)
+long	subtract_time(struct timeval eat_last)
 {
 	struct timeval	current;
 	struct timeval	tmp;
 
 	gettimeofday(&current, NULL);
-	if (flag == 'd')
-	{
-		tmp.tv_sec = current.tv_sec - eat_last.tv_sec;
-		tmp.tv_usec = current.tv_usec - eat_last.tv_usec;
-	}
-	else
-	{
-		tmp.tv_sec = current.tv_sec - eat_last.tv_sec;
-		tmp.tv_usec = current.tv_usec - eat_last.tv_usec;
-	}
+	tmp.tv_sec = current.tv_sec - eat_last.tv_sec;
+	tmp.tv_usec = current.tv_usec - eat_last.tv_usec;
 	if (tmp.tv_usec < 0)
 	{
 		tmp.tv_sec--;

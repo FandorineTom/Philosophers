@@ -6,13 +6,13 @@
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 13:15:45 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/07 00:31:58 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/08 13:50:07 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_one.h"
 
-long	subtract_time(struct timeval *eat_last, char flag)
+long	subtract_time(struct timeval eat_last, char flag)
 {
 	struct timeval	current;
 	struct timeval	tmp;
@@ -20,25 +20,19 @@ long	subtract_time(struct timeval *eat_last, char flag)
 	gettimeofday(&current, NULL);
 	if (flag == 'd')
 	{
-		// timersub(&current, eat_last, &tmp);
-		tmp.tv_sec = current.tv_sec - eat_last->tv_sec;
-		tmp.tv_usec = current.tv_usec - eat_last->tv_usec;
-		// printf("\t\t\t\t\t\t\t\t\ttv_sec %ld\n", current.tv_sec);
-		// printf("\t\t\t\t\t\t\t\t\ttv_usec %d\n", current.tv_usec);
+		tmp.tv_sec = current.tv_sec - eat_last.tv_sec;
+		tmp.tv_usec = current.tv_usec - eat_last.tv_usec;
 	}
 	else
 	{
-		// timersub(&current, &g_struct.start_time, &tmp);
-		tmp.tv_sec = current.tv_sec - eat_last->tv_sec;
-		tmp.tv_usec = current.tv_usec - eat_last->tv_usec;
+		tmp.tv_sec = current.tv_sec - eat_last.tv_sec;
+		tmp.tv_usec = current.tv_usec - eat_last.tv_usec;
 	}
 	if (tmp.tv_usec < 0)
 	{
-        tmp.tv_sec--;
+		tmp.tv_sec--;
 		tmp.tv_usec += 1000000;
 	}
-	// if (flag == 'd')
-	// 	printf("\t\t\t\t\t\t\t\t\tbefore %ld\n", tmp.tv_sec * 1000 + tmp.tv_usec / 1000);
 	return (tmp.tv_sec * 1000 + tmp.tv_usec / 1000);
 }
 

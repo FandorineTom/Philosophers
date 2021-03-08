@@ -6,7 +6,7 @@
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 13:03:36 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/07 00:32:10 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/08 13:50:30 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,13 @@ t_struct			init_struct(char **argv);
 int					init_all_philo(void);
 char				*free_all(void);
 void				philo_eating(int i);
-long				subtract_time(struct timeval *eat_last, char flag);
+long				subtract_time(struct timeval eat_last, char flag);
 int					print_error(char *str, int ret);
 int					ft_isdigit(int c);
 
 t_struct			g_struct;
 t_philo				**g_philo;
 pthread_t			**g_thread;
-// pthread_t			*g_check_death;
 pthread_mutex_t		**g_mutex;
-// pthread_mutex_t		g_print_mutex;
 
 #endif

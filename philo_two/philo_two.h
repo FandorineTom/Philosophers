@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_one.h                                        :+:      :+:    :+:   */
+/*   philo_two.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 13:03:36 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/10 16:28:34 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/15 15:14:58 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_ONE_H
-# define PHILO_ONE_H
+#ifndef PHILO_TWO_H
+# define PHILO_TWO_H
 
 # include <pthread.h>
 # include <stdio.h>
@@ -19,6 +19,9 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <string.h>
+# include <semaphore.h>
+# include <fcntl.h>
+# include <sys/stat.h>
 
 typedef struct		s_struct
 {
@@ -28,19 +31,16 @@ typedef struct		s_struct
 	long			time_to_die;
 	int				num_to_eat;
 	struct timeval	start_time;
-	int				queue;
 	int				full_philos;
-	pthread_mutex_t	print_mutex;
+	sem_t			*print_sem;
 	pthread_t		check_death;
 }					t_struct;
 
 typedef struct		s_philo
 {
 	struct timeval	last_time_eat;
-	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	*right_fork;
 	int				times_eat;
-	pthread_mutex_t	eat_mutex;
+	int				queue;
 	int				p_i;
 }					t_philo;
 
@@ -56,6 +56,6 @@ int					ft_isdigit(int c);
 t_struct			g_struct;
 t_philo				**g_philo;
 pthread_t			**g_thread;
-pthread_mutex_t		**g_mutex;
+sem_t				*g_sem;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 12:25:01 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/17 16:43:04 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/18 23:25:58 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	*philo_doing_smth(void *num)
 	int	i;
 
 	i = *(int *)num;
-
 	pthread_detach(*g_thread[i]);
 	while (1)
 	{

@@ -6,7 +6,7 @@
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 13:45:01 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/17 16:43:25 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/18 23:26:36 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,9 @@ int			init_g_philo(void)
 	}
 	sem_unlink("/print_sem");
 	sem_unlink("/fork_sem");
-	if ((g_sem = sem_open("/fork_sem", O_CREAT, 0666, g_struct.p_num)) == SEM_FAILED\
-	|| (g_struct.print_sem = sem_open("/print_sem", O_CREAT, 0666, 1)) == SEM_FAILED)
+	if ((g_sem = sem_open("/fork_sem", O_CREAT, 0666, g_struct.p_num))\
+	== SEM_FAILED || (g_struct.print_sem = sem_open("/print_sem", O_CREAT,\
+	0666, 1)) == SEM_FAILED)
 		return (print_error("ERROR: couldn't create semaphore\n", -1));
 	return (0);
 }

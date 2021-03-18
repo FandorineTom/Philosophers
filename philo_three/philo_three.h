@@ -6,7 +6,7 @@
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 13:03:36 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/17 17:57:33 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/18 23:20:35 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,13 @@ typedef struct		s_struct
 	long			time_to_die;
 	int				num_to_eat;
 	struct timeval	start_time;
-	int				full_philos;
 	sem_t			*print_sem;
-	// pthread_t		check_death;
 }					t_struct;
 
 typedef struct		s_philo
 {
 	struct timeval	last_time_eat;
 	int				times_eat;
-	int				queue;
 	int				p_i;
 }					t_philo;
 
@@ -56,11 +53,12 @@ int					print_error(char *str, int ret);
 int					ft_isdigit(int c);
 void				*check_death(void *ptr);
 int					kill_all(void);
+void				check_full(void);
 
 t_struct			g_struct;
 t_philo				**g_philo;
 pid_t				*g_pid;
 sem_t				*g_sem;
-// pid_t				*g_pid;
+sem_t				*g_full;
 
 #endif

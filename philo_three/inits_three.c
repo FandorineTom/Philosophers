@@ -6,7 +6,7 @@
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 13:45:01 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/17 18:04:54 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/18 23:21:46 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,11 @@ int			init_g_philo(void)
 	}
 	sem_unlink("/print_sem");
 	sem_unlink("/fork_sem");
-	if ((g_sem = sem_open("/fork_sem", O_CREAT, 0666, \
-	g_struct.p_num)) == SEM_FAILED || (g_struct.print_sem =\
-	sem_open("/print_sem", O_CREAT, 0666, 1)) == SEM_FAILED)
+	sem_unlink("/full_sem");
+	if ((g_sem = sem_open("/fork_sem", O_CREAT, 0666, g_struct.p_num))\
+	== SEM_FAILED || (g_struct.print_sem = sem_open("/print_sem", O_CREAT,\
+	0666, 1)) == SEM_FAILED || (g_full = sem_open("/full_sem", O_CREAT, 0666,\
+	2)) == SEM_FAILED)
 		return (print_error("ERROR: couldn't create semaphore\n", -1));
 	return (0);
 }
@@ -76,4 +78,17 @@ char		*free_all(void)
 	free(g_philo);
 	free(g_pid);
 	return (NULL);
+}
+
+void		check_full(void)
+{
+	int		i;
+
+	i = 0;
+	while (i < g_struct.p_num)
+	{
+		sem_wait(g_full);
+		i++;
+	}
+	exit(0);
 }

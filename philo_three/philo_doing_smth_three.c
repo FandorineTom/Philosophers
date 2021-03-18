@@ -6,7 +6,7 @@
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 16:46:56 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/17 18:03:58 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/18 23:18:40 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	philo_eating(int i)
 	i + 1);
 	sem_post(g_struct.print_sem);
 	sem_wait(g_sem);
-	// g_philo[i]->queue = 1;
 	sem_wait(g_struct.print_sem);
 	printf("%ld %i has taken a fork\n", subtract_time(g_struct.start_time), \
 	i + 1);
@@ -34,5 +33,5 @@ void	philo_eating(int i)
 	sem_post(g_sem);
 	g_philo[i]->times_eat++;
 	if (g_philo[i]->times_eat == g_struct.num_to_eat)
-		g_struct.full_philos++;
+		sem_post(g_full);
 }

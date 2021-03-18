@@ -6,7 +6,7 @@
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 13:15:45 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/17 17:56:25 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/18 23:21:02 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int		print_error(char *str, int ret)
 	return (ret);
 }
 
-int			kill_all(void)
+int		kill_all(void)
 {
 	int		i;
 

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   inits_two.c                                        :+:      :+:    :+:   */
+/*   inits_three.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 13:45:01 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/17 16:43:25 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/17 18:04:54 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_two.h"
+#include "philo_three.h"
 
 t_struct	init_struct(char **argv)
 {
@@ -40,8 +40,9 @@ int			init_g_philo(void)
 	}
 	sem_unlink("/print_sem");
 	sem_unlink("/fork_sem");
-	if ((g_sem = sem_open("/fork_sem", O_CREAT, 0666, g_struct.p_num)) == SEM_FAILED\
-	|| (g_struct.print_sem = sem_open("/print_sem", O_CREAT, 0666, 1)) == SEM_FAILED)
+	if ((g_sem = sem_open("/fork_sem", O_CREAT, 0666, \
+	g_struct.p_num)) == SEM_FAILED || (g_struct.print_sem =\
+	sem_open("/print_sem", O_CREAT, 0666, 1)) == SEM_FAILED)
 		return (print_error("ERROR: couldn't create semaphore\n", -1));
 	return (0);
 }
@@ -50,15 +51,13 @@ int			init_all_philo(void)
 {
 	int		i;
 
-	if (!(g_philo = (t_philo **)malloc(sizeof(t_philo *) * g_struct.p_num)) \
-	|| !(g_thread = (pthread_t **)malloc(sizeof(pthread_t *) * g_struct.p_num)))
+	if (!(g_philo = (t_philo **)malloc(sizeof(t_philo *) * g_struct.p_num))\
+	|| !(g_pid = (pid_t *)malloc(sizeof(pid_t) * g_struct.p_num)))
 		return (print_error("ERROR: malloc error\n", -1));
 	i = 0;
 	while (i < g_struct.p_num)
 	{
-		if (!(g_philo[i] = (t_philo *)malloc(sizeof(t_philo) * g_struct.p_num))\
-		|| !(g_thread[i] = (pthread_t *)malloc(sizeof(pthread_t) * \
-		g_struct.p_num)))
+		if (!(g_philo[i] = (t_philo *)malloc(sizeof(t_philo) * g_struct.p_num)))
 			return (print_error("ERROR: malloc error\n", -1));
 		i++;
 	}
@@ -70,17 +69,11 @@ int			init_all_philo(void)
 char		*free_all(void)
 {
 	int	i;
-	int	total;
 
 	i = 0;
-	total = g_struct.p_num;
-	while (i < total)
-	{
-		free(g_philo[i]);
-		free(g_thread[i]);
-		i++;
-	}
+	while (i < g_struct.p_num)
+		free(g_philo[i++]);
 	free(g_philo);
-	free(g_thread);
+	free(g_pid);
 	return (NULL);
 }

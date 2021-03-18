@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_two.c                                        :+:      :+:    :+:   */
+/*   philo_three.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 12:25:01 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/17 16:43:04 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/18 12:42:16 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_two.h"
+#include "philo_three.h"
 
 void	*philo_doing_smth(void *num)
 {
-	int	i;
+	int			i;
+	pthread_t	death;
 
 	i = *(int *)num;
-
-	pthread_detach(*g_thread[i]);
-	while (1)
-	{
-		if (i == 0 || g_philo[i - 1]->queue == 1)
-			break ;
-		usleep(500);
-	}
+	pthread_create(&death, NULL, check_death, num);
 	while (1)
 	{
 		philo_eating(i);
@@ -38,35 +32,33 @@ void	*philo_doing_smth(void *num)
 		i + 1);
 		sem_post(g_struct.print_sem);
 	}
-	return (NULL);
+	pthread_join(death, NULL);
+	exit (0);
 }
 
-void	*check_death(void *ptr)
+void	*check_death(void *num)
 {
-	int				i;
+	int		i;
+	int		flag;
 
-	while (1)
+	i = *(int *)num;
+	flag = 0;
+	while (!flag)
 	{
-		i = 0;
-		while (i < g_struct.p_num)
-		{
-			if (subtract_time(g_philo[i]->last_time_eat) > \
-			g_struct.time_to_die)
-			{
-				sem_wait(g_struct.print_sem);
-				printf("%ld %i died\n", subtract_time(g_struct.start_time), \
-				i + 1);
-				return (NULL);
-			}
-			i++;
-		}
-		if (g_struct.full_philos == g_struct.p_num)
+		if (subtract_time(g_philo[i]->last_time_eat) > g_struct.time_to_die)
 		{
 			sem_wait(g_struct.print_sem);
-			return (NULL);
+			printf("%ld %i died\n", subtract_time(g_struct.start_time), \
+			i + 1);
+			flag = 1;
 		}
 	}
-	return (ptr);
+		// if (g_struct.full_philos == g_struct.p_num)
+		// {
+		// 	sem_wait(g_struct.print_sem);
+		// 	return (NULL);
+		// }
+	exit (0);
 }
 
 int		check_input(int argc, char **argv)
@@ -91,23 +83,57 @@ int		check_input(int argc, char **argv)
 	return (0);
 }
 
+void	check_full(void)
+{
+
+}
+
+int		parent_process(void)
+{
+	int		i;
+	// pid_t	full;
+
+	// full = fork();
+	// if (full == 0)
+	// 	check_full();
+	// else if (full > 0)
+	// {
+		i = 0;
+		while (i < g_struct.p_num)
+		{
+			g_pid[i] = fork();
+			if (g_pid[i] == 0)
+				philo_doing_smth(&g_philo[i]->p_i);
+			else if (g_pid[i] > 0)
+				usleep(500);
+			if (g_pid[i] < 0)
+				return (print_error("ERROR: the process ended with a mistake", errno));
+			i++;
+		}
+		waitpid(-1, NULL, 0);
+	// }
+	// else
+	// 	return (print_error("ERROR: the process ended with a mistake", errno));
+	kill_all();
+	exit (0);
+}
+
 int		main(int argc, char **argv)
 {
-	int			i;
+	pid_t		pid;
 
 	if (check_input(argc, argv) == -1)
 		return (1);
 	g_struct = init_struct(argv);
 	if (init_all_philo() == -1)
 		return (1);
-	pthread_create(&g_struct.check_death, NULL, check_death, NULL);
-	i = 0;
-	while (i < g_struct.p_num)
-	{
-		pthread_create(g_thread[i], NULL, philo_doing_smth, &g_philo[i]->p_i);
-		i++;
-	}
-	pthread_join(g_struct.check_death, NULL);
+	pid = fork();
+	if (pid == 0)
+		parent_process();
+	else if (pid > 0)
+		waitpid(-1, NULL, 0);
+	else
+		return (print_error("ERROR: the process ended with a mistake", errno));
 	free_all();
 	return (0);
 }

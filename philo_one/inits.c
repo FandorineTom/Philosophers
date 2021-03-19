@@ -6,7 +6,7 @@
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 13:45:01 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/19 23:01:13 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/20 01:59:22 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,15 @@ void		init_g_philo(void)
 		g_philo[i]->p_i = i;
 		if (i == 0)
 		{
-			g_philo[i]->left_fork = g_mutex[0];
-			g_philo[i]->right_fork = g_mutex[g_struct.p_num - 1];
+			g_philo[i]->left_fork = g_mutex[g_struct.p_num - 1];
+			g_philo[i]->right_fork = g_mutex[0];
 		}
 		else
 		{
 			g_philo[i]->left_fork = g_mutex[i - 1];
 			g_philo[i]->right_fork = g_mutex[i];
-			pthread_mutex_init(&g_philo[i]->eat_mutex, NULL);
 		}
+		pthread_mutex_init(&g_philo[i]->eat_mutex, NULL);
 		i++;
 	}
 }

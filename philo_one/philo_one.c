@@ -6,7 +6,7 @@
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 12:25:01 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/20 01:07:52 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/20 02:09:06 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ void	*check_death(void *ptr)
 			if (subtract_time(g_philo[i]->last_time_eat) > g_struct.time_to_die)
 			{
 				pthread_mutex_lock(&g_struct.print_mutex);
-				printf("%ld %i died\n", subtract_time(g_struct.start_time), i + 1);
+				printf("%ld %i died\n", subtract_time(g_struct.start_time),\
+				i + 1);
 				return (NULL);
 			}
 			pthread_mutex_unlock(&g_philo[i]->eat_mutex);

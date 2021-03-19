@@ -6,7 +6,7 @@
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 12:25:01 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/17 16:42:44 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/19 23:09:35 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	*philo_doing_smth(void *num)
 		printf("%ld %i is sleeping\n", subtract_time(g_struct.start_time), \
 		i + 1);
 		pthread_mutex_unlock(&g_struct.print_mutex);
-		usleep(g_struct.time_to_sleep);
+		usleep(g_struct.time_to_sleep + 500);
 		pthread_mutex_lock(&g_struct.print_mutex);
 		printf("%ld %i is thinking\n", subtract_time(g_struct.start_time), \
 		i + 1);
@@ -43,7 +43,7 @@ void	*philo_doing_smth(void *num)
 
 void	*check_death(void *ptr)
 {
-	int				i;
+	int		i;
 
 	while (1)
 	{
@@ -51,12 +51,10 @@ void	*check_death(void *ptr)
 		while (i < g_struct.p_num)
 		{
 			pthread_mutex_lock(&g_philo[i]->eat_mutex);
-			if (subtract_time(g_philo[i]->last_time_eat) > \
-			g_struct.time_to_die)
+			if (subtract_time(g_philo[i]->last_time_eat) > g_struct.time_to_die)
 			{
 				pthread_mutex_lock(&g_struct.print_mutex);
-				printf("%ld %i died\n", subtract_time(g_struct.start_time), \
-				i + 1);
+				printf("%ld %i died\n", subtract_time(g_struct.start_time), i + 1);
 				return (NULL);
 			}
 			pthread_mutex_unlock(&g_philo[i]->eat_mutex);

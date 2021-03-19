@@ -6,7 +6,7 @@
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 16:46:56 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/17 16:42:51 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/19 16:54:19 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@ void	philo_eating(int i)
 	pthread_mutex_lock(&g_struct.print_mutex);
 	printf("%ld %i has taken a fork\n", subtract_time(g_struct.start_time), \
 	i + 1);
+	pthread_mutex_unlock(&g_struct.print_mutex);
+	pthread_mutex_lock(&g_struct.print_mutex);
 	printf("%ld %i has taken a fork\n", subtract_time(g_struct.start_time), \
 	i + 1);
-	gettimeofday(&g_philo[i]->last_time_eat, NULL);
 	pthread_mutex_unlock(&g_struct.print_mutex);
+	gettimeofday(&g_philo[i]->last_time_eat, NULL);
 	pthread_mutex_lock(&g_struct.print_mutex);
 	printf("%ld %i is eating\n", subtract_time(g_struct.start_time), i + 1);
 	pthread_mutex_unlock(&g_struct.print_mutex);

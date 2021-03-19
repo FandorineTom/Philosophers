@@ -6,7 +6,7 @@
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 13:03:36 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/10 16:28:34 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/20 01:16:03 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <string.h>
+# include <fcntl.h>
+# include <sys/errno.h>
+# include <sys/stat.h>
+# include <signal.h>
 
 typedef struct		s_struct
 {

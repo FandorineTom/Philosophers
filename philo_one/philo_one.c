@@ -6,7 +6,7 @@
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 12:25:01 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/19 23:21:59 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/20 01:07:52 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	*philo_doing_smth(void *num)
 		printf("%ld %i is sleeping\n", subtract_time(g_struct.start_time), \
 		i + 1);
 		pthread_mutex_unlock(&g_struct.print_mutex);
-		usleep(g_struct.time_to_sleep + 500);
+		usleep(g_struct.time_to_sleep);
 		pthread_mutex_lock(&g_struct.print_mutex);
 		printf("%ld %i is thinking\n", subtract_time(g_struct.start_time), \
 		i + 1);

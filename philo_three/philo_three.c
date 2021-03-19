@@ -6,7 +6,7 @@
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 12:25:01 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/18 23:23:25 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/20 00:59:13 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	*philo_doing_smth(void *num)
 
 	i = *(int *)num;
 	pthread_create(&death, NULL, check_death, num);
-	while (1)
+	while (!g_philo[i]->death_flag)
 	{
 		philo_eating(i);
 		sem_wait(g_struct.print_sem);
@@ -39,18 +39,16 @@ void	*philo_doing_smth(void *num)
 void	*check_death(void *num)
 {
 	int		i;
-	int		flag;
 
 	i = *(int *)num;
-	flag = 0;
-	while (!flag)
+	while (!g_philo[i]->death_flag)
 	{
 		if (subtract_time(g_philo[i]->last_time_eat) > g_struct.time_to_die)
 		{
 			sem_wait(g_struct.print_sem);
 			printf("%ld %i died\n", subtract_time(g_struct.start_time), \
 			i + 1);
-			flag = 1;
+			g_philo[i]->death_flag = 1;
 		}
 	}
 	exit(0);
@@ -98,10 +96,10 @@ int		parent_process(void)
 				return (print_error("process ended with mistake", errno));
 			i++;
 		}
-		waitpid(-1, NULL, 0);
 	}
 	else
 		return (print_error("ERROR: process ended with a mistake", errno));
+	waitpid(-1, NULL, 0);
 	kill_all();
 	exit(0);
 }

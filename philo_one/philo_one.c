@@ -6,7 +6,7 @@
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 12:25:01 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/19 23:09:35 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/19 23:21:59 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,10 @@ void	*check_death(void *ptr)
 			i++;
 		}
 		if (g_struct.full_philos == g_struct.p_num)
+		{
+			pthread_mutex_lock(&g_struct.print_mutex);
 			return (NULL);
+		}
 	}
 	return (ptr);
 }

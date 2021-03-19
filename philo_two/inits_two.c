@@ -6,7 +6,7 @@
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 13:45:01 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/18 23:26:36 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/19 23:27:58 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,8 @@ int			init_all_philo(void)
 	i = 0;
 	while (i < g_struct.p_num)
 	{
-		if (!(g_philo[i] = (t_philo *)malloc(sizeof(t_philo) * g_struct.p_num))\
-		|| !(g_thread[i] = (pthread_t *)malloc(sizeof(pthread_t) * \
-		g_struct.p_num)))
+		if (!(g_philo[i] = (t_philo *)malloc(sizeof(t_philo)))\
+		|| !(g_thread[i] = (pthread_t *)malloc(sizeof(pthread_t))))
 			return (print_error("ERROR: malloc error\n", -1));
 		i++;
 	}

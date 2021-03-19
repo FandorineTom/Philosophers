@@ -6,7 +6,7 @@
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 13:45:01 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/18 23:21:46 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/20 00:43:47 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int			init_g_philo(void)
 	if ((g_sem = sem_open("/fork_sem", O_CREAT, 0666, g_struct.p_num))\
 	== SEM_FAILED || (g_struct.print_sem = sem_open("/print_sem", O_CREAT,\
 	0666, 1)) == SEM_FAILED || (g_full = sem_open("/full_sem", O_CREAT, 0666,\
-	2)) == SEM_FAILED)
+	0)) == SEM_FAILED)
 		return (print_error("ERROR: couldn't create semaphore\n", -1));
 	return (0);
 }
@@ -59,7 +59,7 @@ int			init_all_philo(void)
 	i = 0;
 	while (i < g_struct.p_num)
 	{
-		if (!(g_philo[i] = (t_philo *)malloc(sizeof(t_philo) * g_struct.p_num)))
+		if (!(g_philo[i] = (t_philo *)malloc(sizeof(t_philo))))
 			return (print_error("ERROR: malloc error\n", -1));
 		i++;
 	}

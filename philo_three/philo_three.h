@@ -6,7 +6,7 @@
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/28 13:03:36 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/18 23:20:35 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/20 00:58:21 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct		s_philo
 	struct timeval	last_time_eat;
 	int				times_eat;
 	int				p_i;
+	int				death_flag;
 }					t_philo;
 
 int					ft_atoi(const char *str);

@@ -6,7 +6,7 @@
 /*   By: snorthmo <snorthmo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/25 12:25:01 by snorthmo          #+#    #+#             */
-/*   Updated: 2021/03/20 00:59:13 by snorthmo         ###   ########.fr       */
+/*   Updated: 2021/03/21 10:10:56 by snorthmo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,24 +81,24 @@ int		parent_process(void)
 	int		i;
 	pid_t	full;
 
+	i = 0;
 	full = fork();
 	if (full == 0)
 		check_full();
 	else if (full > 0)
 	{
-		i = 0;
 		while (i < g_struct.p_num)
 		{
 			g_pid[i] = fork();
 			if (g_pid[i] == 0)
 				philo_doing_smth(&g_philo[i]->p_i);
 			if (g_pid[i] < 0)
-				return (print_error("process ended with mistake", errno));
+				return (print_error("process ended with mistake\n", errno));
 			i++;
 		}
 	}
 	else
-		return (print_error("ERROR: process ended with a mistake", errno));
+		return (print_error("ERROR: process ended with a mistake\n", errno));
 	waitpid(-1, NULL, 0);
 	kill_all();
 	exit(0);
